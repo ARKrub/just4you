@@ -1,15 +1,12 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1">
-
-  <title>Just4you | My AR Chibi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Just4you.th | Your 3D Character</title>
 
   <script type="module"
-    src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.1.0/model-viewer.min.js">
+    src="https://unpkg.com/@google/model-viewer@4.1.0/dist/model-viewer.min.js">
   </script>
 
   <style>
@@ -17,246 +14,164 @@
 
     body {
       margin: 0;
-      background: linear-gradient(
-        160deg, #fff0f5, #ffffff
-      );
-      font-family: Arial, sans-serif;
-      color: #34303b;
-      text-align: center;
+      font-family: system-ui, sans-serif;
+      color: #342e37;
+      background: #faf7f3;
     }
 
-    header {
-      padding: 25px 15px 10px;
+    main {
+      height: 100vh;
+      height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      max-width: 1000px;
+      margin: auto;
     }
 
-    h1 {
-      font-size: 28px;
-      margin: 10px 0;
-      color: #d34e83;
+    header, footer { text-align: center; }
+
+    header small {
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: #9b6272;
     }
 
-    p {
-      color: #777;
-      line-height: 1.6;
-    }
+    h1 { font-size: 24px; margin: 10px 0 6px; }
+    p { font-size: 14px; color: #766e79; }
 
-    .viewer-box {
-      width: 94%;
-      max-width: 650px;
-      margin: 20px auto;
-      background: white;
-      border-radius: 24px;
-      box-shadow: 0 8px 30px #00000012;
-      overflow: hidden;
+    .viewer {
+      flex: 1;
+      min-height: 0;
+      position: relative;
     }
 
     model-viewer {
       width: 100%;
-      height: 450px;
-      background: #f8f7fb;
-    }
-
-    .controls {
-      padding: 18px;
-    }
-
-    button {
-      border: none;
-      padding: 14px 22px;
-      margin: 6px;
-      border-radius: 30px;
-      font-size: 15px;
-      font-weight: bold;
-      cursor: pointer;
-      background: #ed6b9a;
-      color: white;
-    }
-
-    button.secondary {
-      background: #eee7ef;
-      color: #473d49;
-    }
-
-    button:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    #arButton {
-      background: #aa4bd0;
+      height: 100%;
+      background: transparent;
+      touch-action: none;
     }
 
     #status {
-      font-size: 13px;
-      color: #777;
-      padding: 5px 15px 15px;
-    }
-
-    .instructions {
-      max-width: 600px;
-      margin: 25px auto;
-      padding: 0 20px;
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      top: 16px;
+      text-align: center;
+      pointer-events: none;
+      color: #766e79;
       font-size: 14px;
     }
 
-    footer {
-      padding: 25px;
-      color: #999;
-      font-size: 12px;
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
     }
+
+    button {
+      border: 1px solid #ded5dc;
+      border-radius: 999px;
+      padding: 12px 20px;
+      background: white;
+      color: #342e37;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    button:disabled { opacity: .45; cursor: default; }
+    button:hover:not(:disabled) { background: #f0e8ed; }
+
+    footer { padding-bottom: env(safe-area-inset-bottom); }
   </style>
 </head>
 
 <body>
+  <main>
+    <header>
+      <small>JUST4YOU.TH</small>
+      <h1>Your little character</h1>
+      <p>A little version of you, brought to life.</p>
+    </header>
 
-  <header>
-    <h1>My Little AR World 💕</h1>
-    <p>A little character, a big memory.</p>
-  </header>
+    <div class="viewer">
+      <model-viewer
+        id="character"
+        src="./models/test%202.glb"
+        alt="Your personalized animated 3D character"
+        camera-controls
+        disable-pan
+        disable-tap
+        touch-action="none"
+        camera-target="auto auto auto"
+        camera-orbit="0deg 75deg 105%"
+        min-camera-orbit="auto 10deg 35%"
+        max-camera-orbit="auto 170deg 200%"
+        field-of-view="30deg"
+        shadow-intensity="0.8"
+        shadow-softness="1"
+        exposure="1"
+        autoplay
+        loading="eager">
+      </model-viewer>
 
-  <div class="viewer-box">
-
-    <model-viewer
-      id="chibiViewer"
-
-      src="./models/test%202.glb"
-
-      alt="Personalized animated chibi character"
-
-      camera-controls
-      autoplay
-      animation-crossfade-duration="300"
-
-      ar
-      ar-modes="webxr scene-viewer quick-look"
-      ar-placement="floor"
-      ar-scale="fixed"
-
-      shadow-intensity="1"
-      shadow-softness="0.8"
-      environment-image="neutral"
-
-      exposure="1"
-      camera-orbit="0deg 75deg auto"
-
-      interaction-prompt="auto">
-
-      <button
-        slot="ar-button"
-        id="arButton">
-        📱 View in AR
-      </button>
-
-    </model-viewer>
-
-    <div class="controls">
-      <button id="playButton">
-        ▶ Play Animation
-      </button>
-
-      <button
-        id="resetButton"
-        class="secondary">
-        ↻ Reset View
-      </button>
+      <div id="status" role="status">Loading your character…</div>
     </div>
 
-    <div id="status">
-      Loading your character...
-    </div>
-
-  </div>
-
-  <div class="instructions">
-    <h2>Bring Your Character to Life ✨</h2>
-
-    <p>
-      Tap View in AR, slowly scan a well-lit
-      tabletop or floor, then place your
-      character on the surface.
-    </p>
-
-    <p>
-      Move your phone gently around the
-      character to explore it in your
-      real-world environment.
-    </p>
-  </div>
-
-  <footer>
-    Made with ❤️ by Just4you.th
-  </footer>
+    <footer>
+      <div class="controls">
+        <button id="reset" type="button">Reset view</button>
+        <button id="animation" type="button" disabled>
+          Pause animation
+        </button>
+      </div>
+      <p>Drag to rotate · Pinch or scroll to resize</p>
+    </footer>
+  </main>
 
   <script>
-    const viewer =
-      document.getElementById("chibiViewer");
-
-    const playButton =
-      document.getElementById("playButton");
-
-    const resetButton =
-      document.getElementById("resetButton");
-
-    const status =
-      document.getElementById("status");
+    const viewer = document.querySelector("#character");
+    const status = document.querySelector("#status");
+    const animationButton = document.querySelector("#animation");
 
     viewer.addEventListener("load", () => {
+      status.hidden = true;
 
-      const animations =
-        viewer.availableAnimations || [];
+      const animations = viewer.availableAnimations;
 
       if (animations.length > 0) {
-
         viewer.animationName = animations[0];
         viewer.play();
-
-        status.textContent =
-          "Animation loaded: " +
-          animations.join(", ");
-
-        playButton.textContent =
-          "⏸ Pause Animation";
-
+        animationButton.disabled = false;
+        animationButton.textContent = "Pause animation";
       } else {
-
-        status.textContent =
-          "Model loaded. No animation detected.";
-
-        playButton.disabled = true;
+        animationButton.textContent = "No animation";
       }
     });
 
     viewer.addEventListener("error", () => {
+      status.hidden = false;
       status.textContent =
-        "Model loading error. Check GLB path.";
+        'Could not load the model. Check that "test 2.glb" is in the same folder as index.html.';
     });
 
-    playButton.addEventListener("click", () => {
+    document.querySelector("#reset").addEventListener("click", () => {
+      viewer.cameraTarget = "auto auto auto";
+      viewer.cameraOrbit = "0deg 75deg 105%";
+      viewer.fieldOfView = "30deg";
+    });
 
+    animationButton.addEventListener("click", () => {
       if (viewer.paused) {
-
         viewer.play();
-
-        playButton.textContent =
-          "⏸ Pause Animation";
-
+        animationButton.textContent = "Pause animation";
       } else {
-
         viewer.pause();
-
-        playButton.textContent =
-          "▶ Play Animation";
+        animationButton.textContent = "Play animation";
       }
     });
-
-    resetButton.addEventListener("click", () => {
-
-      viewer.cameraOrbit =
-        "0deg 75deg auto";
-
-      viewer.jumpCameraToGoal();
-    });
   </script>
-
 </body>
 </html>
